@@ -992,6 +992,18 @@ impl ABIMachineSpec for X64ABIMachineSpec {
             16 // RBP, return address
         };
 
+        // SysV requires RSP ≡ 0 (mod 16) immediately before a `call`. A GHC
+        // entry has RSP ≡ 8 (retaddr only, no `push %rbp`). A 16-aligned frame
+        // would leave RSP ≡ 8 at call sites — pad by 8 when this function makes
+        // any non-tail call.
+        let mut fixed_frame_storage_size = fixed_frame_storage_size;
+        if call_conv == CallConv::Ghc && matches!(function_calls, FunctionCalls::Regular) {
+            let frame = clobber_size + fixed_frame_storage_size + outgoing_args_size;
+            if frame % 16 == 0 {
+                fixed_frame_storage_size += 8;
+            }
+        }
+
         // Return FrameLayout structure.
         FrameLayout {
             word_bytes: 8,

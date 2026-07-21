@@ -63,17 +63,21 @@ block0(v0: i64):
 }
 
 ; VCode:
+;   subq $8, %rsp
 ; block0:
 ;   load_ext_name %sysv+0, %rsi
 ;   movq %r13, %rdi
 ;   call    *%rsi
+;   addq $8, %rsp
 ;   retq
 ;
 ; Disassembled:
 ; block0: ; offset 0x0
+;   subq $8, %rsp
 ;   movabsq $0, %rsi ; reloc_external Abs8 %sysv 0
 ;   movq %r13, %rdi
 ;   callq *%rsi
+;   addq $8, %rsp
 ;   retq
 
 function %system_v_call_ghc(i64) system_v {
