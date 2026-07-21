@@ -1692,12 +1692,7 @@ impl<'func, I: VCodeInst> Lower<'func, I> {
     /// `from_inst` and `to_inst` in layout order within the same block.
     ///
     /// Uses on `to_inst` itself (e.g. a branch blockparam) are not counted.
-    pub fn has_same_block_use_between(
-        &self,
-        val: Value,
-        from_inst: Inst,
-        to_inst: Inst,
-    ) -> bool {
+    pub fn has_same_block_use_between(&self, val: Value, from_inst: Inst, to_inst: Inst) -> bool {
         let layout = &self.f.layout;
         if layout.inst_block(from_inst) != layout.inst_block(to_inst) {
             return true;
@@ -1777,9 +1772,7 @@ impl<'func, I: VCodeInst> Lower<'func, I> {
             let mut regs_iter = regs.regs().iter();
             for &dst in dsts.regs().iter() {
                 let temp = regs_iter.next().copied().unwrap_or(Reg::invalid_sentinel());
-                trace!(
-                    "absorb_inst: set vreg alias for {result:?}: {dst:?} -> {temp:?}"
-                );
+                trace!("absorb_inst: set vreg alias for {result:?}: {dst:?} -> {temp:?}");
                 self.vregs.set_vreg_alias(dst, temp);
             }
         }

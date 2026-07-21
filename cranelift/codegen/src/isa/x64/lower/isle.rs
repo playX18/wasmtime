@@ -11,13 +11,15 @@ use super::{MergeableLoadSize, is_int_or_ref_ty, is_mergeable_load, lower_to_amo
 use crate::ir::condcodes::{FloatCC, IntCC};
 use crate::ir::immediates::*;
 use crate::ir::types::*;
-use crate::ir::{BlockCall, Inst, InstructionData, LibCall, Opcode, TrapCode, Value, ValueDef, ValueList};
+use crate::ir::{
+    BlockCall, Inst, InstructionData, LibCall, Opcode, TrapCode, Value, ValueDef, ValueList,
+};
 use crate::isa::x64::X64Backend;
 use crate::isa::x64::inst::{ReturnCallInfo, args::*, regs};
 use crate::isa::x64::lower::{InsnInput, emit_vm_call};
 use crate::machinst::isle::*;
 use crate::machinst::{
-    ArgPair, CallArgList, CallInfo, CallRetList, InstOutput, MachInst, Lower, VCodeConstant,
+    ArgPair, CallArgList, CallInfo, CallRetList, InstOutput, Lower, MachInst, VCodeConstant,
     VCodeConstantData,
 };
 use alloc::boxed::Box;
@@ -1954,8 +1956,7 @@ impl Context for IsleContext<'_, '_, MInst, X64Backend> {
 
     fn absorb_overflow_inst(&mut self, inst: Inst, sum_regs: ValueRegs) -> Unit {
         use crate::machinst::ValueRegs as VR;
-        self.lower_ctx
-            .absorb_inst(inst, &[sum_regs, VR::invalid()]);
+        self.lower_ctx.absorb_inst(inst, &[sum_regs, VR::invalid()]);
     }
 }
 
