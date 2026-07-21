@@ -1889,8 +1889,7 @@ fn emit_return_call_common_sequence<T>(
 
     let tmp = call_info.tmp.to_writable_reg();
 
-    for inst in
-        X64ABIMachineSpec::gen_clobber_restore(call_conv, &info.flags, state.frame_layout())
+    for inst in X64ABIMachineSpec::gen_clobber_restore(call_conv, &info.flags, state.frame_layout())
     {
         inst.emit(sink, info, state);
     }
