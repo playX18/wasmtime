@@ -42,17 +42,22 @@ block0(v0: i64, v1: i64):
 }
 
 ; VCode:
+;   subq $0x8, %rsp
 ; block0:
 ;   load_ext_name %ghc_leaf+0, %rsi
 ;   movq %r13, %r12
 ;   call    *%rsi
+;   addq $0x8, %rsp
 ;   retq
 ;
 ; Disassembled:
 ; block0: ; offset 0x0
+;   subq $8, %rsp
+; block1: ; offset 0x4
 ;   movabsq $0, %rsi ; reloc_external Abs8 %ghc_leaf 0
 ;   movq %r13, %r12
 ;   callq *%rsi
+;   addq $8, %rsp
 ;   retq
 
 function %ghc_call_system_v(i64) ghc {
@@ -63,17 +68,18 @@ block0(v0: i64):
 }
 
 ; VCode:
-;   subq $8, %rsp
+;   subq $0x8, %rsp
 ; block0:
 ;   load_ext_name %sysv+0, %rsi
 ;   movq %r13, %rdi
 ;   call    *%rsi
-;   addq $8, %rsp
+;   addq $0x8, %rsp
 ;   retq
 ;
 ; Disassembled:
 ; block0: ; offset 0x0
 ;   subq $8, %rsp
+; block1: ; offset 0x4
 ;   movabsq $0, %rsi ; reloc_external Abs8 %sysv 0
 ;   movq %r13, %rdi
 ;   callq *%rsi
